@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JSON to Markdown Image Converter</title>
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+textarea {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical; /* 允许垂直方向调整大小 */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#markdownOutput {
+  font-family: monospace; /* 使用等宽字体，使 Markdown 格式更清晰 */
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>JSON to Markdown Image Converter</h1>
+
+<textarea id="jsonInput" placeholder="Paste your JSON here"></textarea><br><br>
+
+<button onclick="convertJsonToMarkdown()">Convert</button><br><br>
+
+<textarea id="markdownOutput" placeholder="Markdown output will be displayed here" readonly></textarea>
+
+<div id="error-message" class="error"></div>
+
+<script>
+function convertJsonToMarkdown() {
+  const jsonInput = document.getElementById("jsonInput").value;
+  const markdownOutput = document.getElementById("markdownOutput");
+  const errorMessage = document.getElementById("error-message");
+
+  try {
+    const imageURLs = JSON.parse(jsonInput);
+    let markdown = "";
+    for (let i = 0; i < imageURLs.length; i++) {
+      markdown += `![Image ${i+1}](${imageURLs[i]})\n`;
+    }
+    markdownOutput.value = markdown;
+    errorMessage.textContent = ""; // 清空错误消息
+  } catch (error) {
+    markdownOutput.value = ""; // 清空输出框
+    errorMessage.textContent = "Invalid JSON format. Please check your input.";
+  }
+}
+</script>
+
+</body>
+</html>
